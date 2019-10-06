@@ -299,3 +299,31 @@ void addDataBarExpression( drawData * dataBar ) {
 		textBoxUnHighlight( dataBar );
 	}
 }
+
+void grapherGlobalKeyboardHandler( int keycode ) {
+	drawData * equationEnterBox = (drawData *)(dataBar -> dataPointer) + 3;
+	int key = handleKeyDown(keycode);
+	if ( CTRL_DOWN && !ALT_DOWN ) {
+		if ( key == 32 ) {
+			callWindowEventHandler( equationEnterBox, MOUSE_BUTTON );
+		}
+		else if ( key == 104 ) {
+			//cout << "recenter" << endl;
+			grapherRecenterFunction(graphArea);
+		}
+		else if ( key == 51 ) {
+			if (graphType != GRAPH_TYPE_3D) {
+				setup3DGraph();
+				graphType = GRAPH_TYPE_3D;
+				drawGraph( graphArea );
+			}
+		}
+		else if ( key == 50 ) {
+			if (graphType != GRAPH_TYPE_2D) {
+				setup2DGraph();
+				graphType = GRAPH_TYPE_2D;
+				drawGraph( graphArea );
+			}
+		}
+	}
+}

@@ -510,3 +510,50 @@ void draw3DExpression( drawData drawInfo ) {
 		}
 	}
 }
+
+void printFloat( double value, int x, int y, char * textBuffer, int maxLen, drawData * window ) {
+	int mag = floor( log( abs(value) ) / log ( 10 ) );
+	float coef = value / pow( 10, mag );
+
+	int digit = 6;
+	textBuffer[ digit ] = 48 + abs(mag);
+	digit--;
+	if (mag < 0) {
+		textBuffer[ digit ] = 45;
+		digit--;
+	}
+	textBuffer[ digit ] = 101;
+
+	if ( coef < 0 ) {
+		textBuffer[0] = 45;
+		coef *= -1;
+
+		textBuffer[ 1 ] = 48 + (int)(coef);
+		coef -= floor( coef );
+		coef *= 10;
+		textBuffer[ 2 ] = 46;
+
+		int i;
+		for ( i = 3; i < digit; i++ ) {
+			textBuffer[ i ] = 48 + (int)(coef);
+			coef -= floor( coef );
+			coef *= 10;
+		}
+	}
+	else {
+		textBuffer[ 0 ] = 48 + (int)(coef);
+		coef -= floor( coef );
+		coef *= 10;
+		textBuffer[ 1 ] = 46;
+
+		int i;
+		for ( i = 2; i < digit; i++ ) {
+			textBuffer[ i ] = 48 + (int)(coef);
+			coef -= floor( coef );
+			coef *= 10;
+		}
+	}
+
+	textBuffer[ 7 ] = 0;
+	Text( textBuffer, x, y, 100, 1, 0, 0, window -> window, onScreen );
+}
