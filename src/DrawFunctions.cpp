@@ -1,5 +1,12 @@
+
+#include "DrawFunctions.h"
+#include "GraphManager2D.h"
+#include "GraphManager3D.h"
+#include "Math/ExpressionAnalyzer.h"
+#include "Math/Objects.h"
+
 void drawGrapherLine(drawData drawInformation) {
-	Uint32 * pixels = drawInformation.screen -> screen;
+	uint32_t * pixels = drawInformation.screen -> screen;
 	int WINDOW_WIDTH = drawInformation.screen -> windowWidth;
 	windowSection WINDOW = *(drawInformation.window);
 

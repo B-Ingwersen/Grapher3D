@@ -1,8 +1,12 @@
+
+#include "GraphicsLibrary/Core.h"
+#include "GraphicsLibrary/Extensions/WindowShadows.h"
+#include "GraphManager2D.h"
+#include "GraphData.h"
+
 double gXCenter = 0;
 double gYCenter = 0;
 double pixScale = 100; // pixels per unit
-
-void printFloat( double value, int x, int y, char * textBuffer, int maxLen, drawData * window );
 
 void drawGraph2DFunction( drawData drawInfo ) {
 	drawData * graphArea = (drawData*)(drawInfo.dataPointer);

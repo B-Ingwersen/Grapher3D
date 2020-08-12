@@ -1,35 +1,9 @@
-/*#include <iostream>
-#include <unistd.h>
+
+#include "Math/ExpressionAnalyzer.h"
+#include <iostream>
 #include <cstring>
-#include <math.h>*/
+#include "math.h"
 
-int getStringLen( char * text ) {
-	int i;
-	for ( i = 0; text[i] != 0; i++ ) {}
-	return i;
-}
-
-bool compareDataNull( char * data, char * source ) {
-	int i;
-	for ( i = 0; source[i] != 0; i++ ) {
-		if ( source[i] != data[i] ) {
-			return false;
-		}
-	}
-	return true;
-}
-void copyString( char * dest, char * source ) {
-	int i;
-	for ( i = 0; source[i] != 0; i++ ) {
-		dest[i] = source[i];
-	}
-}
-
-struct predefFunc {
-	char name[8];
-	int len;
-	double (*func)(double);
-};
 int numOfPredefFuncs = 13;
 predefFunc predefFunctions[] = {
 	{"sin", 3, sin},
@@ -47,12 +21,6 @@ predefFunc predefFunctions[] = {
 	{"ln", 2, log},
 };
 
-
-struct predefVar {
-	char name[8];
-	int len;
-	double val;
-};
 int numOfVars = 7;
 predefVar predefVariables[] = {
 	{{9,0}, 1, 0},
@@ -64,18 +32,6 @@ predefVar predefVariables[] = {
 	{"e", 1, 2.718281828}
 };
 
-void clearPredefVars() {
-	int i;
-	for ( i = 0; i < 5; i++ ) {
-		predefVariables[i] = {{9,0}, 1, 0};
-	}
-}
-
-struct operation {
-	char name[8];
-	int len;
-};
-
 operation operations[] = {
 	{"+", 1},
 	{"-", 1},
@@ -84,44 +40,51 @@ operation operations[] = {
 	{"^", 1},
 };
 
-#define valueType 0
-#define predefFuncType 1
-#define predefVarType 2
-#define operationType 3
-#define openGroupType 4
-#define closeGroupType 5
+int getStringLen( char * text ) {
+	int i;
+	for ( i = 0; text[i] != 0; i++ ) {}
+	return i;
+}
 
-#define processType 6
+bool compareDataNull( char * data, char * source ) {
+	int i;
+	for ( i = 0; source[i] != 0; i++ ) {
+		if ( source[i] != data[i] ) {
+			return false;
+		}
+	}
+	return true;
+}
 
-struct funcComponent {
-	int compType;
-	int index;
-};
+void copyString( char * dest, char * source ) {
+	int i;
+	for ( i = 0; source[i] != 0; i++ ) {
+		dest[i] = source[i];
+	}
+}
+
+void clearPredefVars() {
+	int i;
+	for ( i = 0; i < 5; i++ ) {
+		predefVariables[i] = {{9,0}, 1, 0};
+	}
+}
 
 void printFuncComps( funcComponent * comps, int len ) {
 	int i;
 	for ( i = 0; i < len; i++ ) {
 		int opType = comps[i].compType;
-		if ( opType == valueType ) {	cout << "val"; }
-		if ( opType == predefFuncType ) { cout << predefFunctions[comps[i].index].name; }
-		if ( opType == predefVarType ) { cout << predefVariables[comps[i].index].name; }
-		if ( opType == operationType ) { cout << operations[comps[i].index].name; }
-		if ( opType == openGroupType ) { cout << "("; }
-		if ( opType == closeGroupType ) { cout << ")"; }
-		if ( opType == processType ) { cout << "[ITEM " << comps[i].index << "]"; }
+		if ( opType == valueType ) {	std::cout << "val"; }
+		if ( opType == predefFuncType ) { std::cout << predefFunctions[comps[i].index].name; }
+		if ( opType == predefVarType ) { std::cout << predefVariables[comps[i].index].name; }
+		if ( opType == operationType ) { std::cout << operations[comps[i].index].name; }
+		if ( opType == openGroupType ) { std::cout << "("; }
+		if ( opType == closeGroupType ) { std::cout << ")"; }
+		if ( opType == processType ) { std::cout << "[ITEM " << comps[i].index << "]"; }
 	}
 
-	cout << endl;
+	std::cout << std::endl;
 }
-
-struct mathExpression {
-	int * data;
-	double * results;
-	funcComponent * funcComps;
-	int funcCompLen;
-	int textLen;
-	int color;
-};
 
 void deleteMathExpression( mathExpression * elem ) {
 	delete elem -> data;
@@ -129,47 +92,6 @@ void deleteMathExpression( mathExpression * elem ) {
 	delete elem -> funcComps;
 	delete elem;
 }
-
-struct processedGroup {
-	funcComponent * g;
-	funcComponent * g1;
-	funcComponent * g2;
-	funcComponent * g3;
-	funcComponent * g4;
-	funcComponent * g5;
-
-	int valBase;
-	int varBase;
-	int funcBase;
-	int powBase;
-	int prodBase;
-	int sumBase;
-	int finalBase;
-
-	int nSubGroups;
-	int nVals;
-	int nVars;
-	int nPows;
-	int nFuncs;
-	int nProds;
-	int nSums;
-
-	int len;
-	int len2;
-	int len3;
-	int len4;
-	int len5;
-
-	int base3;
-	int powDIBase;
-
-	int * varRefs;
-	processedGroup ** subGroups;
-	int totalLen;
-
-	int dataIndex;
-	int totalDataLen;
-};
 
 void deleteProcGroup( processedGroup * procGroup ) {
 	delete procGroup -> g;
@@ -834,7 +756,7 @@ mathExpression * analyzeMathExpression( char * text, int len ) {
 					lastItem = predefVarType;
 				}
 				else {
-					//cout << "ERROR" << endl;
+					//std::cout << "ERROR" << std::endl;
 					ERROR = true;
 					i = len;
 					break;	
@@ -933,13 +855,6 @@ mathExpression * analyzeMathExpression( char * text, int len ) {
 
 	}
 }
-
-
-struct numberAnalysis {
-	double val;
-	bool sucess;
-	int textLen;
-};
 
 numberAnalysis analyzeNumber( char * text, int len ) {
 	numberAnalysis num;

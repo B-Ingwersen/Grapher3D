@@ -1,3 +1,13 @@
+
+#include "InputManager.h"
+#include "GraphData.h"
+#include "SideBar.h"
+#include "GraphManager2D.h"
+#include "GraphManager3D.h"
+#include "GraphicsLibrary/Extensions/DataOperations.h"
+#include "GraphicsLibrary/Extensions/BasicGUIElements.h"
+#include <iostream>
+
 unsigned char openParenthesis[] = "(";
 unsigned char closeParenthesis[] = ")";
 unsigned char comma[] = ",";
@@ -141,7 +151,7 @@ mathObject * processMathObject( char * text, int len ) {
 		for (j = 0; j < 8; j++) {
 			num = analyzeNumber( text + i, len - i ); if (!num.sucess) { delete vector; delete obj; return NULL; }
 			vector -> comps[j] = num.val;
-			cout << num.val << endl;
+			std::cout << num.val << std::endl;
 		
 			i += num.textLen + 1;
 			if (text[i-1] == 41) {break;}
@@ -308,7 +318,6 @@ void grapherGlobalKeyboardHandler( int keycode ) {
 			callWindowEventHandler( equationEnterBox, MOUSE_BUTTON );
 		}
 		else if ( key == 104 ) {
-			//cout << "recenter" << endl;
 			grapherRecenterFunction(graphArea);
 		}
 		else if ( key == 51 ) {

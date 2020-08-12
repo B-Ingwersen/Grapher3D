@@ -1,3 +1,11 @@
+#include "UserInterface.h"
+#include "GraphData.h"
+#include "GraphManager2D.h"
+#include "GraphManager3D.h"
+#include "InputManager.h"
+#include "GraphicsLibrary/Extensions/BasicGUIElements.h"
+#include "GraphicsLibrary/Extensions/WindowShadows.h"
+
 void createUserInterface(void * argument) {
 	graphObjects = new mathObject[128];
 

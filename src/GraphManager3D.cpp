@@ -1,3 +1,11 @@
+
+#include "GraphManager3D.h"
+#include "Math/Objects.h"
+#include "GraphData.h"
+#include "DrawFunctions.h"
+#include "GraphicsLibrary/Extensions/WindowShadows.h"
+#include <math.h>
+
 double cx = 0;
 double cy = 0;
 double cz = 0;

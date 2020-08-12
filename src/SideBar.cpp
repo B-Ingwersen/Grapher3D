@@ -1,5 +1,13 @@
+#include "SideBar.h"
+#include "GraphData.h"
+#include "GraphicsLibrary/Extensions/BasicGUIElements.h"
+#include "GraphicsLibrary/Extensions/Text.h"
+#include "GraphicsLibrary/Extensions/WindowShadows.h"
+
 int currentColor = 5;
 int graphColors[] = { 0xFF0000, 0x00DD00, 0x0000EE, 0xFF8C00, 0xE76AA1 };
+char deleteButtonText[] = "X";
+
 int generateNextColor() {
 	currentColor++;
 	if (currentColor > 4) {
@@ -18,6 +26,7 @@ void deleteElem( int index ) {
 	}
 	numOfGraphObjs--;
 }
+
 void deleteElemHandler( drawData * deleteButton ) {
 	drawData * elemBar = getParentWindow(deleteButton);
 	int index = elemBar -> arguments[7];
@@ -50,8 +59,6 @@ void changeElemVisible( drawData * selector ) {
 	}
 	drawGraph( graphArea );
 }
-
-char deleteButtonText[] = "X";
 
 void addSideBarElem(mathObject * obj) {
 	drawData * newElemBar = createWindow( sideBar, 5, 5 + 20 * numOfGraphObjs, sideBar -> arguments[3] - 18, 15 );
